@@ -9,6 +9,9 @@ const useCreateAppContext = (): CinemaContextType => {
   const [filmsData, setFilmsData] = useState<FilmsData | null>(null);
   const [isEditorOpened, setIsEditorOpened] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [changedCategories, setChangedCategories] = useState<Category[]>([]);
+  const [addedCategories, setAddedCategories] = useState<Category[]>([]);
+  const [deletedCategories, setDeletedCategories] = useState<Category[]>([]);
 
   const updateFilmsData = useCallback((data: FilmsData) => {
     setFilmsData(data);
@@ -34,18 +37,66 @@ const useCreateAppContext = (): CinemaContextType => {
     setSelectedCategory(data);
   }, []);
 
+  const pushAddedCategory = useCallback((category: Category) => {
+    setAddedCategories((prev) => [...prev, category]);
+  }, []);
+
+  const updateChangedCategory = useCallback((currentList: Category[], category: Category) => {
+    const index = currentList.findIndex((item) => item.id === category.id);
+
+    if (index > -1) {
+      setChangedCategories((prev) => {
+        const newValue = [...prev];
+        newValue[index] = category;
+        return newValue;
+      })
+    } else {
+      setChangedCategories((prev) => [...prev, category]);
+    }
+  }, []);
+
+  const removeChangedCategory = useCallback((id: number) => {
+    setChangedCategories((prev) => prev.filter((item) => item.id !== id));
+  }, []);
+
+  const updateDeletedCategory = useCallback((currentList: Category[], category: Category) => {
+    const index = currentList.findIndex((item) => item.id === category.id);
+
+    if (index > -1) {
+      setDeletedCategories((prev) => {
+        const newValue = [...prev];
+        newValue[index] = category;
+        return newValue;
+      })
+    } else {
+      setDeletedCategories((prev) => [...prev, category]);
+    }
+  }, []);
+
+  const removeDeletedCategory = useCallback((id: number) => {
+    setDeletedCategories((prev) => prev.filter((item) => item.id !== id));
+  }, []);
+
   return {
     loading,
     error,
     filmsData,
     isEditorOpened,
     selectedCategory,
+    addedCategories,
+    changedCategories,
+    deletedCategories,
     updateFilmsData,
     updateLoading,
     updateError,
     getFilmById,
     updateIsEditorOpened,
     updateSelectedCategory,
+    pushAddedCategory,
+    updateDeletedCategory,
+    updateChangedCategory,
+    removeDeletedCategory,
+    removeChangedCategory,
   };
 }
 
