@@ -1,50 +1,65 @@
-# React + TypeScript + Vite
+# Cinema Catalog
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Админ панель для управления витриной кинотеатра с возможностью редактирования категорий.
 
-Currently, two official plugins are available:
+### Автор
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[Верушкин Олег](https://github.com/ReaktorGithub)
 
-## Expanding the ESLint configuration
+![Desktop interface](/images/screenshot.jpg)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Возможности
 
-- Configure the top-level `parserOptions` property like this:
+### Отображение текущей структуры каталога
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+В левой части приложения расположена текущая структура каталогов, подкаталогов и фильмов.
+В мобильной версии этот раздел находится первым сверху.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Добавление категории
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+1. В разделе с каталогом нажать Add category. В правой части приложения появится форма для редактирования категории. В мобильной версии она появится чуть ниже.
+2. Указать имя категории (обязательно).
+3. Продолжить редактировать категорию (см. "Редактирование категории")
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Редактирование категории
+
+1. В разделе с каталогом нажать на иконку карандаша, чтобы начать редактировать нужную категорию.
+2. Нажать Add sub category, чтобы начать добавление подкатегории.
+3. Нажать Add film, чтобы добавить в подкатегорию фильм из предложенных вариантов. Фильмы, уже добавленные в текущий список подкатегории, недоступны для добавления.
+4. Для подтверждения изменений нажать Confirm changes.
+5. Для отмены изменений нажать Cancel (изменения будут удалены и не отобразятся в каталоге).
+
+### Удаление элементов
+
+Любой элемент редактируемого каталога можно удалить. Для этого нажмите иконку "корзины" рядом с соответствующим элементом.
+
+### Кнопка Save
+
+Кнопка Save выводит в консоль браузера информацию об изменениях в структуре каталога.
+
+- *newCategories* - категории которые были созданы. Выводит список объектов категорий с подкатегориями и id фильмов из подкатегорий
+- *updatedCategories* - категории ранее существовавшие на сервере, но измененные в ходе редактирования
+- *deletedCategories* - категории удаленные
+
+## Установка и запуск
+
+```npm i && npm run dev```
+
+## Структура папок проекта
+
+| Название    | Описание                                           |
+|-------------|----------------------------------------------------|
+| public	     | Данные, загружаемые с сервера                      |
+| src         | Папка с клиентской частью                          |
+| api         | Запросы к серверу и их типы                        |
+| components	 | Компоненты, используемые во всем приложении        |
+| pages	      | Верстка для страниц                                |
+| store	      | React Context с глобальным хранилищем              |
+| types	      | Типы, используемые во всем приложении (shared)     |
+| utils       | Утилиты, используемые во всем приложении (shared)  |
+| App.tsx     | Главный компонент                                  |
+| main.tsx	    | Точка входа                                        |
+
+## Остались вопросы?
+
+Пишите на *mindlock861@gmail.com*

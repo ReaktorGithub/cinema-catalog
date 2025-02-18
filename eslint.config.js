@@ -27,7 +27,7 @@ export default tseslint.config(
       ],
       "no-relative-import-paths/no-relative-import-paths": [
         "warn",
-        { "allowSameFolder": true }
+        { allowSameFolder: true, rootDir: "src", prefix: "@" }
       ]
     },
   },
