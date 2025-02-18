@@ -35,9 +35,7 @@ export type DeletedCategory = {
   id: number;
 }
 
-export type UpdatedCategory = {
-  id: number;
-  name: string;
+export type UpdatedCategory = Omit<Category, 'subCategories'> & {
   updatedSubCategories: UpdatedSubCategory[];
   deletedSubCategories: DeletedSubCategory[];
 }
