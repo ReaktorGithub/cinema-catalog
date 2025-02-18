@@ -1,11 +1,11 @@
 import {useEffect, useState} from "react";
-import {Category, SubCategory} from "src/types";
-import {useAppContext} from "src/store/hooks.ts";
-import {generateNumberId} from "src/utils/generate-number-id.ts";
 import {Box, Button, TextField, Typography} from "@mui/material";
 import {Add, Close, Delete} from "@mui/icons-material";
-import {SelectFilmDialog} from "src/components/select-film-dialog";
 import {validateCategoryName} from "./utils/validate-category-name.ts";
+import {useAppContext} from "../../store/hooks.ts";
+import {Category, SubCategory} from "../../types";
+import {generateNumberId} from "../../utils/generate-number-id.ts";
+import {SelectFilmDialog} from "../select-film-dialog";
 
 type Props = {
   onConfirm: (category: Category) => void;

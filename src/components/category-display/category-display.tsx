@@ -1,7 +1,7 @@
-import {Category} from "src/types";
-import {SubCategoryDisplay} from "src/components/sub-category-display";
 import {Box} from "@mui/material";
-import {EditCategory} from "src/components/edit-category";
+import {EditCategory} from "../edit-category";
+import {SubCategoryDisplay} from "../sub-category-display";
+import {Category} from "../../types";
 
 type Props = {
   category: Category;

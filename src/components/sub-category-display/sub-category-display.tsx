@@ -1,7 +1,7 @@
-import {FilmDisplay} from "src/components/film-display";
-import {useAppContext} from "src/store/hooks.ts";
-import {SubCategory} from "src/types";
 import {Box, Typography} from "@mui/material";
+import {SubCategory} from "../../types";
+import {useAppContext} from "../../store/hooks.ts";
+import {FilmDisplay} from "../film-display";
 
 type Props = {
   subCategory: SubCategory;

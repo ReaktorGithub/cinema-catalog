@@ -1,4 +1,4 @@
-import {Category, Film, FilmsData} from "src/types";
+import {Category, Film, FilmsData} from "../types";
 
 export type CinemaContextType = {
   loading: boolean;

@@ -1,6 +1,6 @@
 import {Box} from '@mui/material'
-import {useAppContext} from "src/store/hooks.ts";
-import {CategoryDisplay} from "src/components/category-display";
+import {CategoryDisplay} from "../category-display";
+import {useAppContext} from "../../store/hooks.ts";
 
 const FilmsDisplay = () => {
   const { draft } = useAppContext()

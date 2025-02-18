@@ -1,7 +1,7 @@
 import {CategoryForm} from "./category-form.tsx";
 import {Box, Typography} from "@mui/material";
-import {useAppContext} from "src/store/hooks.ts";
-import {Category} from "src/types";
+import {useAppContext} from "../../store/hooks.ts";
+import {Category} from "../../types";
 
 const CategoryEditor = () => {
   const { addCategory, updateCategory, deleteCategory, draft } = useAppContext();

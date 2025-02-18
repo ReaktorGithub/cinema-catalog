@@ -1,5 +1,5 @@
 import {Box, Button, Dialog, DialogTitle, Typography} from "@mui/material";
-import {useAppContext} from "src/store/hooks.ts";
+import {useAppContext} from "../../store/hooks.ts";
 
 type Props = {
   open: boolean;

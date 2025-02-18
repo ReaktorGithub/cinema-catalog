@@ -1,6 +1,6 @@
 import {Button} from "@mui/material";
-import {useAppContext} from "src/store/hooks.ts";
-import {buildOutput} from "@/components/category-editor/utils/build-output.ts";
+import {buildOutput} from "../category-editor/utils/build-output.ts";
+import {useAppContext} from "../../store/hooks.ts";
 
 const SaveButton = () => {
   const { filmsData, isEditorOpened, draft } = useAppContext();

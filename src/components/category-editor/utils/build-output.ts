@@ -1,11 +1,5 @@
-import {
-  Category,
-  DeletedCategory,
-  NewCategory,
-  Output,
-  UpdatedCategory,
-} from "src/types";
 import {getChangedSubCategories} from "./get-changed-sub-categories.ts";
+import {Category, DeletedCategory, NewCategory, Output, UpdatedCategory} from "../../../types";
 
 type BuildOutputOptionsType = {
   initialState: Category[],

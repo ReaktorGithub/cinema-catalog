@@ -1,7 +1,7 @@
 import {CinemaContext} from "./context.ts";
 import {ReactNode, useCallback, useState} from "react";
-import {Category, Film, FilmsData} from "src/types";
 import {CinemaContextType} from "./context-types.ts";
+import {Category, Film, FilmsData} from "../types";
 
 const useCreateAppContext = (): CinemaContextType => {
   const [loading, setLoading] = useState<boolean>(true);

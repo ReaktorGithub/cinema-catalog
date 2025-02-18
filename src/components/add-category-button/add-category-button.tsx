@@ -1,6 +1,6 @@
 import {Box, Button} from "@mui/material";
 import {Add} from "@mui/icons-material";
-import {useAppContext} from "src/store/hooks.ts";
+import {useAppContext} from "../../store/hooks.ts";
 
 const AddCategoryButton = () => {
   const { isEditorOpened, updateIsEditorOpened, updateSelectedCategory } = useAppContext();

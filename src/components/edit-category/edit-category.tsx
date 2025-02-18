@@ -1,7 +1,7 @@
 import {Edit} from "@mui/icons-material";
 import {Box, Button, Typography} from "@mui/material";
-import {useAppContext} from "src/store/hooks.ts";
-import {Category} from "src/types";
+import {Category} from "../../types";
+import {useAppContext} from "../../store/hooks.ts";
 
 type Props = {
   category: Category;

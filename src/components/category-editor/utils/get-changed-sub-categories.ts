@@ -1,4 +1,4 @@
-import {DeletedSubCategory, SubCategory, UpdatedSubCategory} from "src/types";
+import {DeletedSubCategory, SubCategory, UpdatedSubCategory} from "../../../types";
 
 const getChangedSubCategories = (original: SubCategory[], newVersion: SubCategory[]): {
   updated: UpdatedSubCategory[],
