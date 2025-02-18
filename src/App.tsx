@@ -6,7 +6,7 @@ import {Typography, Box, CircularProgress} from "@mui/material";
 import {FilmsPage} from "./pages/films-page";
 
 const App = () => {
-  const { updateFilmsData, error, loading, updateError, updateLoading } = useAppContext();
+  const { updateFilmsData, updateDraft, error, loading, updateError, updateLoading } = useAppContext();
 
   useEffect(() => {
     updateError(false);
@@ -16,6 +16,7 @@ const App = () => {
       .then((res) => {
         if (isFilmsData(res.data)) {
           updateFilmsData(res.data);
+          updateDraft(res.data.categories);
         } else {
           updateError(true)
         }
@@ -26,7 +27,7 @@ const App = () => {
       .finally(() => {
         updateLoading(false);
       })
-  }, [updateError, updateFilmsData, updateLoading])
+  }, [updateDraft, updateError, updateFilmsData, updateLoading])
 
   return (
     <Box padding='32px 0 32px'>

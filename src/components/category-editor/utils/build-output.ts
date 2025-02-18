@@ -4,51 +4,64 @@ import {
   NewCategory,
   Output,
   UpdatedCategory,
-} from "../../../types/types.ts";
+} from "src/types";
 import {getChangedSubCategories} from "./get-changed-sub-categories.ts";
 
-const buildOutput = ({ initialState, added, changed, deleted }: {
+type BuildOutputOptionsType = {
   initialState: Category[],
-  added: Category[],
-  changed: Category[],
-  deleted: Category[],
-}): Output => {
+  draft: Category[],
+}
+
+const buildOutput = ({ initialState, draft }: BuildOutputOptionsType): Output => {
   const result: Output = {
     newCategories: [],
     updatedCategories: [],
     deletedCategories: [],
   }
 
-  if (!initialState) {
-    return result;
-  }
-
-  const newCategories: NewCategory[] = added.map((category) => ({
-    name: category.name,
-    subCategories: category.subCategories.map((subCategory) => ({
-      name: subCategory.name,
-      filmIds: subCategory.filmIds,
-    })),
-  }));
-
-  const updatedCategories: UpdatedCategory[] = changed.map((category) => {
-    const originalIndex = initialState.findIndex((item) => item.id === category.id);
-    const changedSubCategories = getChangedSubCategories(
-      initialState[originalIndex].subCategories,
-      category.subCategories,
-    );
-
-    return {
-      id: category.id,
+  const newCategories: NewCategory[] = draft
+    .filter((category) => initialState.every((item) => item.id !== category.id))
+    .map((category) => ({
       name: category.name,
-      updatedSubCategories: changedSubCategories.updated,
-      deletedSubCategories: changedSubCategories.deleted,
+      subCategories: category.subCategories.map((subCategory) => ({
+        name: subCategory.name,
+        filmIds: subCategory.filmIds,
+      })),
+    }));
+
+  const updatedCategories: UpdatedCategory[] = [];
+
+  initialState.forEach((category) => {
+    const draftCategory = draft.find((item) => item.id === category.id);
+
+    if (draftCategory) {
+      let isChanged = draftCategory.name !== category.name;
+
+      const changedSubCategories = getChangedSubCategories(
+        category.subCategories,
+        draftCategory.subCategories,
+      );
+
+      if (changedSubCategories.deleted.length || changedSubCategories.updated.length) {
+        isChanged = true;
+      }
+
+      if (isChanged) {
+        updatedCategories.push({
+          id: draftCategory.id,
+          name: draftCategory.name,
+          updatedSubCategories: changedSubCategories.updated,
+          deletedSubCategories: changedSubCategories.deleted,
+        })
+      }
     }
   });
 
-  const deletedCategories: DeletedCategory[] = deleted.map((category) => ({
-    id: category.id,
-  }));
+  const deletedCategories: DeletedCategory[] = initialState
+    .filter((category) => draft.every((item) => item.id !== category.id))
+    .map((category) => ({
+      id: category.id,
+    }));
 
   result.newCategories = newCategories;
   result.updatedCategories = updatedCategories;

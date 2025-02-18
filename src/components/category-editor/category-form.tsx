@@ -1,10 +1,11 @@
 import {useEffect, useState} from "react";
-import {Category, SubCategory} from "../../types/types.ts";
-import {useAppContext} from "../../store/hooks.ts";
-import {generateNumberId} from "../../utils/generate-number-id.ts";
+import {Category, SubCategory} from "src/types";
+import {useAppContext} from "src/store/hooks.ts";
+import {generateNumberId} from "src/utils/generate-number-id.ts";
 import {Box, Button, TextField, Typography} from "@mui/material";
 import {Add, Close, Delete} from "@mui/icons-material";
-import {SelectFilmDialog} from "../select-film-dialog";
+import {SelectFilmDialog} from "src/components/select-film-dialog";
+import {validateCategoryName} from "./utils/validate-category-name.ts";
 
 type Props = {
   onConfirm: (category: Category) => void;
@@ -15,6 +16,7 @@ const CategoryForm = ({ onConfirm, onRemoveCategory }: Props) => {
   const [name, setName] = useState<string>('');
   const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [isValid, setIsValid] = useState<boolean>(false);
   const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategory | undefined>(undefined);
 
   const { selectedCategory, updateIsEditorOpened, updateSelectedCategory, getFilmById } = useAppContext();
@@ -22,9 +24,11 @@ const CategoryForm = ({ onConfirm, onRemoveCategory }: Props) => {
   useEffect(() => {
     if (selectedCategory) {
       setName(selectedCategory.name);
+      setIsValid(validateCategoryName(selectedCategory.name));
       setSubCategories(selectedCategory.subCategories);
     } else {
       setName('');
+      setIsValid(false);
       setSubCategories([]);
     }
   }, [selectedCategory]);
@@ -123,6 +127,11 @@ const CategoryForm = ({ onConfirm, onRemoveCategory }: Props) => {
     handleCancel();
   }
 
+  const handleChangeCategoryName = (value: string) => {
+    setName(value);
+    setIsValid(validateCategoryName(value));
+  }
+
   const handleRemoveCategory = () => {
     onRemoveCategory(selectedCategory);
     handleCancel();
@@ -137,7 +146,7 @@ const CategoryForm = ({ onConfirm, onRemoveCategory }: Props) => {
             variant="outlined"
             fullWidth
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => handleChangeCategoryName(e.target.value)}
           />
           <Button onClick={handleRemoveCategory}>
             <Delete color='error'/>
@@ -218,12 +227,12 @@ const CategoryForm = ({ onConfirm, onRemoveCategory }: Props) => {
           <Button
             variant='contained'
             color="success"
+            disabled={!isValid}
             onClick={handleConfirm}
           >
             {selectedCategory ? 'Confirm changes' : 'Add category'}
           </Button>
         </Box>
-
       </Box>
 
       <SelectFilmDialog

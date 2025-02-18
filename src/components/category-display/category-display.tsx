@@ -1,7 +1,7 @@
-import {Category} from "../../types/types.ts";
-import {SubCategoryDisplay} from "../sub-category-display";
+import {Category} from "src/types";
+import {SubCategoryDisplay} from "src/components/sub-category-display";
 import {Box} from "@mui/material";
-import {EditCategory} from "../edit-category/edit-category.tsx";
+import {EditCategory} from "src/components/edit-category";
 
 type Props = {
   category: Category;

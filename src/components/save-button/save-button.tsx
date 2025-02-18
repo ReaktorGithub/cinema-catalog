@@ -1,11 +1,11 @@
 import {Button} from "@mui/material";
-import {useAppContext} from "../../store/hooks.ts";
-import {buildOutput} from "../category-editor/utils/build-output.ts";
+import {useAppContext} from "src/store/hooks.ts";
+import {buildOutput} from "src/components/category-editor/utils/build-output.ts";
 
 const SaveButton = () => {
-  const { addedCategories, deletedCategories, changedCategories, filmsData, isEditorOpened } = useAppContext();
+  const { filmsData, isEditorOpened, draft } = useAppContext();
 
-  const disabled = !addedCategories.length && !deletedCategories.length && !changedCategories.length || isEditorOpened;
+  const disabled = isEditorOpened;
 
   const handleSave = () => {
     if (!filmsData) {
@@ -14,9 +14,7 @@ const SaveButton = () => {
 
     const output = buildOutput({
       initialState: filmsData.categories,
-      added: addedCategories,
-      deleted: deletedCategories,
-      changed: changedCategories,
+      draft,
     })
 
     console.log(output);

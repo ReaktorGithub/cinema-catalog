@@ -1,6 +1,6 @@
 import {CinemaContext} from "./context.ts";
 import {ReactNode, useCallback, useState} from "react";
-import {Category, Film, FilmsData} from "../types/types.ts";
+import {Category, Film, FilmsData} from "src/types";
 import {CinemaContextType} from "./context-types.ts";
 
 const useCreateAppContext = (): CinemaContextType => {
@@ -9,9 +9,7 @@ const useCreateAppContext = (): CinemaContextType => {
   const [filmsData, setFilmsData] = useState<FilmsData | null>(null);
   const [isEditorOpened, setIsEditorOpened] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
-  const [changedCategories, setChangedCategories] = useState<Category[]>([]);
-  const [addedCategories, setAddedCategories] = useState<Category[]>([]);
-  const [deletedCategories, setDeletedCategories] = useState<Category[]>([]);
+  const [draft, setDraft] = useState<Category[]>([]);
 
   const updateFilmsData = useCallback((data: FilmsData) => {
     setFilmsData(data);
@@ -37,44 +35,30 @@ const useCreateAppContext = (): CinemaContextType => {
     setSelectedCategory(data);
   }, []);
 
-  const pushAddedCategory = useCallback((category: Category) => {
-    setAddedCategories((prev) => [...prev, category]);
+  const updateDraft = useCallback((categories: Category[]) => {
+    setDraft(categories);
   }, []);
 
-  const updateChangedCategory = useCallback((currentList: Category[], category: Category) => {
-    const index = currentList.findIndex((item) => item.id === category.id);
+  const addCategory = useCallback((category: Category) => {
+    setDraft((prev) => [...prev, category]);
+  }, []);
 
-    if (index > -1) {
-      setChangedCategories((prev) => {
+  const updateCategory = useCallback((category: Category) => {
+    setDraft((prev) => {
+      const index = prev.findIndex((item) => item.id === category.id);
+
+      if (index > -1) {
         const newValue = [...prev];
         newValue[index] = category;
         return newValue;
-      })
-    } else {
-      setChangedCategories((prev) => [...prev, category]);
-    }
+      } else {
+        return prev;
+      }
+    });
   }, []);
 
-  const removeChangedCategory = useCallback((id: number) => {
-    setChangedCategories((prev) => prev.filter((item) => item.id !== id));
-  }, []);
-
-  const updateDeletedCategory = useCallback((currentList: Category[], category: Category) => {
-    const index = currentList.findIndex((item) => item.id === category.id);
-
-    if (index > -1) {
-      setDeletedCategories((prev) => {
-        const newValue = [...prev];
-        newValue[index] = category;
-        return newValue;
-      })
-    } else {
-      setDeletedCategories((prev) => [...prev, category]);
-    }
-  }, []);
-
-  const removeDeletedCategory = useCallback((id: number) => {
-    setDeletedCategories((prev) => prev.filter((item) => item.id !== id));
+  const deleteCategory = useCallback((id: number) => {
+    setDraft((prev) => prev.filter((item) => item.id !== id));
   }, []);
 
   return {
@@ -83,20 +67,17 @@ const useCreateAppContext = (): CinemaContextType => {
     filmsData,
     isEditorOpened,
     selectedCategory,
-    addedCategories,
-    changedCategories,
-    deletedCategories,
+    draft,
     updateFilmsData,
     updateLoading,
     updateError,
     getFilmById,
     updateIsEditorOpened,
     updateSelectedCategory,
-    pushAddedCategory,
-    updateDeletedCategory,
-    updateChangedCategory,
-    removeDeletedCategory,
-    removeChangedCategory,
+    updateDraft,
+    addCategory,
+    updateCategory,
+    deleteCategory,
   };
 }
 

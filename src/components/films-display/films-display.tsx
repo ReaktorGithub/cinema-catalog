@@ -1,11 +1,11 @@
 import {Box} from '@mui/material'
-import {useAppContext} from "../../store/hooks.ts";
-import {CategoryDisplay} from "../category-display";
+import {useAppContext} from "src/store/hooks.ts";
+import {CategoryDisplay} from "src/components/category-display";
 
 const FilmsDisplay = () => {
-  const { filmsData } = useAppContext()
+  const { draft } = useAppContext()
 
-  if (!filmsData) {
+  if (!draft.length) {
     return null;
   }
 
@@ -16,7 +16,7 @@ const FilmsDisplay = () => {
       gap='32px'
     >
       {
-        filmsData.categories.map((category) => (
+        draft.map((category) => (
           <CategoryDisplay key={category.id} category={category} />
         ))
       }

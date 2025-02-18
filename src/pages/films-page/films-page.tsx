@@ -1,8 +1,8 @@
 import {Box, Grid2 as Grid, Typography} from "@mui/material";
-import {FilmsDisplay} from "../../components/films-display";
-import {CategoryEditor} from "../../components/category-editor";
-import {AddCategoryButton} from "../../components/add-category-button";
-import {SaveButton} from "../../components/save-button";
+import {FilmsDisplay} from "src/components/films-display";
+import {CategoryEditor} from "src/components/category-editor";
+import {AddCategoryButton} from "src/components/add-category-button";
+import {SaveButton} from "src/components/save-button";
 
 const FilmsPage = () => {
   return (
@@ -12,8 +12,6 @@ const FilmsPage = () => {
           <Typography variant='h5' component="h2" marginBottom='16px'>Categories</Typography>
           <AddCategoryButton />
           <FilmsDisplay />
-
-
         </Grid>
 
         <Grid size={{ md: 6, xs: 12 }}>

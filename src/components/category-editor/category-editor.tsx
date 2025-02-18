@@ -1,47 +1,26 @@
 import {CategoryForm} from "./category-form.tsx";
 import {Box, Typography} from "@mui/material";
-import {useAppContext} from "../../store/hooks.ts";
-import {Category} from "../../types/types.ts";
+import {useAppContext} from "src/store/hooks.ts";
+import {Category} from "src/types";
 
 const CategoryEditor = () => {
-  const {
-    changedCategories,
-    deletedCategories,
-    pushAddedCategory,
-    updateChangedCategory,
-    updateDeletedCategory,
-    removeChangedCategory,
-    removeDeletedCategory,
-  } = useAppContext();
+  const { addCategory, updateCategory, deleteCategory, draft } = useAppContext();
 
-  const { isEditorOpened, filmsData } = useAppContext();
+  const { isEditorOpened } = useAppContext();
 
   const handleConfirmCategoryChanges = (category: Category) => {
-    if (!filmsData) {
-      return;
+    const isExist = draft.some((item) => item.id === category.id);
+
+    if (isExist) {
+      updateCategory(category);
+    } else {
+      addCategory(category);
     }
-
-    const index = filmsData.categories.findIndex((item) => item.id === category.id);
-
-    if (index === -1) {
-      pushAddedCategory(category);
-      return;
-    }
-
-    updateChangedCategory(changedCategories, category);
-    removeDeletedCategory(category.id);
   }
 
   const handleRemoveCategory = (category: Category | null) => {
-    if (!category || !filmsData) {
-      return;
-    }
-
-    const index = filmsData.categories.findIndex((item) => item.id === category.id);
-
-    if (index > -1) {
-      updateDeletedCategory(deletedCategories, category);
-      removeChangedCategory(category.id);
+    if (category) {
+      deleteCategory(category.id);
     }
   }
 
